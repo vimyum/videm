@@ -1,0 +1,22 @@
+#!/bin/sh
+cd
+if [ ${TMUX_PANE} -z ]; then
+	echo "Videm Requires Tmux Environment"
+	echo " (See http://tmux.sourceforge.net/)"
+	exit
+fi
+
+if [ $# -gt 0 ]; then
+	TMUX_WIN_NAME="${1}"
+else
+	TMUX_WIN_NAME="videm"
+fi
+
+if [ $# -gt 1 ]; then
+	TMUX_WIN_NAME="${1}"
+else
+	TMUX_WIN_NAME="videm"
+fi
+
+tmux rename-window $TMUX_WIN_NAME
+tmux split-window -h -p 18 "export VIDEM_MAIN=$TMUX_PANE && vim --cmd 'let loaded_minibufexplorer = 1' -c 'Videm'"
